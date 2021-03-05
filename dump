@@ -10,8 +10,8 @@ vestigal_prompt () {
         exit 0
     elif [[ "$confirm" == [rR] ]]
     then
-        if [[ -a tmpo ]] then rm tmpo fi
-        if [[ -a tmplinked ]] then rm tmplinked fi
+        if [[ -a tmpo ]]; then rm tmpo; fi
+        if [[ -a tmplinked ]]; then rm tmplinked; fi
     else
         vestial_prompt
     fi
