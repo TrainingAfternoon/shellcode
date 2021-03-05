@@ -5,20 +5,20 @@
 
 vestigal_prompt () {
     read -p "tmpo or tmplinked left over. (R)emove & continue execution or (a)bort? " confirm
-    if [ "$confirm" == [aA] ]
+    if [[ "$confirm" == [aA] ]]
     then
         exit 0
-    elif [ "$confirm" == [rR]
+    elif [[ "$confirm" == [rR] ]]
     then
-        if [ -a tmpo ] then rm tmpo fi
-        if [ -a tmplinked ] then rm tmplinked fi
+        if [[ -a tmpo ]] then rm tmpo fi
+        if [[ -a tmplinked ]] then rm tmplinked fi
     else
         vestial_prompt
     fi
 }
 
 #input validation
-if [ -z $1 ] || [! -a $1 ]
+if [[ -z $1 ]] || [[! -a $1 ]]
 then
     echo "Please specify a valid input file"
     exit 1
@@ -34,7 +34,7 @@ fi
 nasm -f elf -o tmpo $1
 ld -o tmplinked tmpo
 
-if [ -z $2 ]
+if [[ -z $2 ]]
 then
     objdump -d tmpo
 else
