@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+#Utility for dumping the machine code for an x86 asm file to the terminal
+#Credit: https://www.vividmachines.com/shellcode/shellcode.html
+
+vestigal_prompt () {
+    read -p "tmpo or tmplinked left over. (R)emove & continue execution or (a)bort? " confirm
+    if [ "$confirm" == [aA] ]
+    then
+        exit 0
+    elif [ "$confirm" == [rR]
+    then
+        if [ -a tmpo ] then rm tmpo fi
+        if [ -a tmplinked ] then rm tmplinked fi
+    else
+        vestial_prompt
+    fi
+}
+
+#input validation
+if [ -z $1 ] || [! -a $1 ]
+then
+    echo "Please specify a valid input file"
+    exit 1
+fi
+
+#check for vestigal files from failed execution
+if [[ -a tmpo || -a tmplinked ]]
+then
+    vestigal_prompt
+fi
+
+#process input file
+nasm -f elf -o tmpo $1
+ld -o tmplinked tmpo
+
+if [ -z $2 ]
+then
+    objdump -d tmpo
+else
+    objdump -d tmpo >> $2
+
+fi
+
+#clean up
+echo "cleaning up..."
+rm tmpo
+rm tmplinked
+echo "done"
